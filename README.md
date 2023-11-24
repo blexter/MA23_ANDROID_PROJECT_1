@@ -2,22 +2,32 @@
 
 Layout/Vy1
 
-label -> ange namn
-textruta -> 
-knapp -> kör igång
+- label -> ange namn
+
+- textruta -> 
+
+- knapp -> kör igång
+
+
 
 Layout/Vy2
 
-label -> %namn%: 0 poäng
-imageview -> spelkort
-label -> är nästa kort högre eller lägre?
-button -> högre
-button -> lägre
+- label -> %namn%: 0 poäng
+
+- imageview -> spelkort
+
+- label -> är nästa kort högre eller lägre?
+
+- button -> högre
+
+- button -> lägre
+
+
 
 
 senare ev:
-	flerspelarstöd
-	spara statistik
+ * flerspelarstöd
+ * spara statistik
 
 
 
