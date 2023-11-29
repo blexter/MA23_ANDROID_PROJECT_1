@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99d9ea"
+    tools:context=".GameActivity">
+
+    <TextView
+        android:id="@+id/pointTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%username%: X poäng"
+        tools:layout_editor_absoluteX="68dp"
+        tools:layout_editor_absoluteY="79dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="314dp"
+        android:layout_height="425dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/clubs2"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <TextView
+        android:id="@+id/nextCardTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:text="Är nästa kort högre eller lägre?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="585dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/higherButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#B5E61D"
+        android:text="&#11014;"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/evenButton"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="659dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/evenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#FFEB3B"
+        android:text="&#8644;"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/lowerButton"
+        app:layout_constraintStart_toEndOf="@+id/higherButton"
+        tools:layout_editor_absoluteY="659dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/lowerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#FF7F27"
+        android:text="&#11015;"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/evenButton"
+        tools:layout_editor_absoluteY="659dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
