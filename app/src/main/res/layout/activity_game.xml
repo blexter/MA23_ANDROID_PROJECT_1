@@ -11,69 +11,87 @@
         android:id="@+id/pointTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="160dp"
         android:text="%username%: X poäng"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="79dp" />
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="314dp"
         android:layout_height="425dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/clubs2"
-        tools:layout_editor_absoluteY="139dp" />
+        app:layout_constraintTop_toBottomOf="@+id/pointTextView"
+        app:srcCompat="@drawable/clubs2" />
 
     <TextView
         android:id="@+id/nextCardTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:text="Är nästa kort högre eller lägre?"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="585dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/higherButton"
-        android:layout_width="wrap_content"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="25dp"
         android:background="#B5E61D"
         android:text="&#11014;"
-        android:textSize="24sp"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/evenButton"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="659dp" />
+        app:layout_constraintTop_toBottomOf="@+id/nextCardTextView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/evenButton"
-        android:layout_width="wrap_content"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="25dp"
         android:background="#FFEB3B"
         android:text="&#8644;"
-        android:textSize="24sp"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lowerButton"
         app:layout_constraintStart_toEndOf="@+id/higherButton"
-        tools:layout_editor_absoluteY="659dp" />
+        app:layout_constraintTop_toBottomOf="@+id/nextCardTextView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/lowerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
         android:background="#FF7F27"
         android:text="&#11015;"
-        android:textSize="24sp"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/evenButton"
-        tools:layout_editor_absoluteY="659dp" />
+        app:layout_constraintTop_toBottomOf="@+id/nextCardTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
