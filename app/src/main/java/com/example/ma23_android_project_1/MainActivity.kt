@@ -24,9 +24,10 @@ class MainActivity : AppCompatActivity() {
     }
     fun letsContinue(){
         val intent = Intent(this, GameActivity::class.java)
-        var name = nameText.text
+        var name : String
+        name = nameText.text.toString()
         if(name.equals("")){
-            //name = ""
+            name = "Player 1"
         }
         Log.d("!!!", nameText.text.toString())
         Log.d("!!!", name.toString())
