@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.content.Context
 import android.graphics.drawable.Drawable
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 data class ImageItem(val card: Drawable, val value: Comparable<*>)
 
@@ -16,7 +17,6 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var pointsView: TextView
     private lateinit var cardImage : ImageView
-
 
     private var name : String? = null
     private var points : Int = 0
@@ -40,26 +40,18 @@ class GameActivity : AppCompatActivity() {
 
         writePoints()
         getCard()
-        //currentValue = currentCard.value as Int
-        //cardImage.setImageDrawable(currentCard.card)
-
-
 
         higherButton.setOnClickListener {
-            checkGame(">")
-        }
-        lowerButton.setOnClickListener {
-
             checkGame("<")
+        }
 
+        lowerButton.setOnClickListener {
+            checkGame(">")
         }
 
         evenButton.setOnClickListener {
             checkGame("=")
         }
-
-
-
     }
     fun writePoints() {
         pointsView.text = " $name : $points poäng"
@@ -68,48 +60,80 @@ class GameActivity : AppCompatActivity() {
     fun checkGame(operator : String){
 
         val oldValue = currentValue
-        getCard()
-        val newValue = currentValue
+        val newCard = getCard()
 
-        if(operator == "=") {
-            if (oldValue == newValue)
-                points++
+        if (newCard != null) {
+            currentValue = currentCard.value as Int
+
+            when (operator) {
+                "=" -> if (oldValue == currentValue) points++
+                "<" -> if (oldValue < currentValue) points++
+                ">" -> if (oldValue > currentValue) points++
+            }
+
+            cardImage.setImageDrawable(currentCard.card)
+            writePoints()
         }
-        if(operator == "<") {
-            if (oldValue < newValue)
-                points++
+        else {
+            endActivity()
         }
-        if(operator == ">") {
-            if (oldValue > newValue)
-                points++
+    }
+    private fun getCard(){
+        val newCard = card.getCard(Random.nextInt(card.returnSize()))
+
+        if (newCard != null) {
+            currentCard = newCard
+            currentValue = currentCard.value as Int
+            cardImage.setImageDrawable(currentCard.card)
         }
-        //cardImage.setImageDrawable(currentCard.card)
-        writePoints()
+        else {
+            endActivity()
+            return
+        }
     }
 
-    private fun getCard(){
-        currentCard = card.getCard(Random.nextInt(card.returnSize()))
-        currentValue = currentCard.value as Int
-        cardImage.setImageDrawable(currentCard.card)
-
+    private fun endActivity(){
+        finish()
     }
     class Deck(context : Context) {
-            private val cards = arrayOf(
+
+            private val cards = mutableListOf(
                 R.drawable.clubs2,
                 R.drawable.diamonds3
             )
-            private val values = arrayOf(
+
+            private val values = mutableListOf(
                 2,
                 3
             )
-        private val deck: List<ImageItem> = cards.mapIndexed { index, resourceId ->
-            val card = context.getDrawable(resourceId)!!
-            val value = values.getOrNull(index) ?: 0
-            ImageItem(card, value)
+
+        private val deck: MutableList<ImageItem> = mutableListOf()
+        init {
+            populateDeck(context)
         }
-        
-        fun getCard (index: Int): ImageItem{
-            return deck[index]
+        private fun populateDeck(context: Context) {
+            for (index in cards.indices) {
+                val card = context.getDrawable(cards[index])!!
+                val value = values.getOrNull(index) ?: 0
+                deck.add(ImageItem(card, value))
+            }
+        }
+
+        fun removeCard(index : Int){
+            if(index in 0 until deck.size){
+                deck.removeAt(index)
+            }
+        }
+
+        fun getCard (index: Int): ImageItem? {
+            if (returnSize() > 0) {
+                val newCard = deck[index]
+                removeCard(index)
+                return newCard
+            }
+            else {
+                return null
+            }
         }
 
         fun returnSize() : Int {
