@@ -32,53 +32,30 @@ class GameActivity : AppCompatActivity() {
 
         cardImage = findViewById(R.id.cardImageView)
         pointsView = findViewById(R.id.pointTextView)
-        //val name: String
-        //name = intent.getStringExtra("player") //.toString()
-        name = intent.getStringExtra("player")
-        Log.d("!!!", "$name")
-        writePoints()
-
         val higherButton = findViewById<Button>(R.id.higherButton)
         val lowerButton = findViewById<Button>(R.id.lowerButton)
         val evenButton = findViewById<Button>(R.id.evenButton)
 
+        name = intent.getStringExtra("player")
 
+        writePoints()
         getCard()
-        currentValue = currentCard.value as Int
-        cardImage.setImageDrawable(currentCard.card)
+        //currentValue = currentCard.value as Int
+        //cardImage.setImageDrawable(currentCard.card)
+
+
 
         higherButton.setOnClickListener {
-            val oldValue = currentValue
-            getCard()
-            val compResult : Int = oldValue.toString().compareTo(currentValue.toString())
-            if(compResult > 0)
-                points++
-
-            cardImage.setImageDrawable(currentCard.card)
+            checkGame(">")
         }
         lowerButton.setOnClickListener {
 
-            val oldValue = currentValue
-            getCard()
-            val compResult : Int = oldValue.toString().compareTo(currentValue.toString())
-            if(compResult < 0)
-                points++
-
-            cardImage.setImageDrawable(currentCard.card)
+            checkGame("<")
 
         }
 
         evenButton.setOnClickListener {
-            val oldValue = currentValue
-            getCard()
-            val newValue = currentValue
-            //val compResult: Int = (oldValue as Comparable<*>).compareTo(currentValue as Comparable<*>)
-
-            if(oldValue == newValue)
-                points++
-
-            cardImage.setImageDrawable(currentCard.card)
-            writePoints()
+            checkGame("=")
         }
 
 
@@ -88,9 +65,32 @@ class GameActivity : AppCompatActivity() {
         pointsView.text = " $name : $points poäng"
     }
 
+    fun checkGame(operator : String){
+
+        val oldValue = currentValue
+        getCard()
+        val newValue = currentValue
+
+        if(operator == "=") {
+            if (oldValue == newValue)
+                points++
+        }
+        if(operator == "<") {
+            if (oldValue < newValue)
+                points++
+        }
+        if(operator == ">") {
+            if (oldValue > newValue)
+                points++
+        }
+        //cardImage.setImageDrawable(currentCard.card)
+        writePoints()
+    }
+
     private fun getCard(){
         currentCard = card.getCard(Random.nextInt(card.returnSize()))
         currentValue = currentCard.value as Int
+        cardImage.setImageDrawable(currentCard.card)
 
     }
     class Deck(context : Context) {
@@ -107,9 +107,7 @@ class GameActivity : AppCompatActivity() {
             val value = values.getOrNull(index) ?: 0
             ImageItem(card, value)
         }
-
-
-
+        
         fun getCard (index: Int): ImageItem{
             return deck[index]
         }
