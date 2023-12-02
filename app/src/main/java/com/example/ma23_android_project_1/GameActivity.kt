@@ -18,35 +18,44 @@ class GameActivity : AppCompatActivity() {
     private lateinit var cardImage : ImageView
 
 
-
+    private var name : String? = null
     private var points : Int = 0
-    private var currentValue : Comparable<*> = 0
+    private var currentValue: Int = 0
     private lateinit var currentCard : ImageItem
-    //private val card = Deck(applicationContext)
+    private val card: Deck by lazy {
+        Deck(applicationContext)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        cardImage = findViewById(R.id.cardImageView)
         pointsView = findViewById(R.id.pointTextView)
         //val name: String
         //name = intent.getStringExtra("player") //.toString()
-        val name = intent.getStringExtra("player")
+        name = intent.getStringExtra("player")
         Log.d("!!!", "$name")
-        pointsView.text = " $name : $points poäng"
+        writePoints()
 
         val higherButton = findViewById<Button>(R.id.higherButton)
         val lowerButton = findViewById<Button>(R.id.lowerButton)
         val evenButton = findViewById<Button>(R.id.evenButton)
 
 
-        //getCard()
-        //currentValue = currentCard.value
-        //cardImage.setImageDrawable(currentCard.card)
+        getCard()
+        currentValue = currentCard.value as Int
+        cardImage.setImageDrawable(currentCard.card)
 
         higherButton.setOnClickListener {
-            finish()
-        }/*
+            val oldValue = currentValue
+            getCard()
+            val compResult : Int = oldValue.toString().compareTo(currentValue.toString())
+            if(compResult > 0)
+                points++
+
+            cardImage.setImageDrawable(currentCard.card)
+        }
         lowerButton.setOnClickListener {
 
             val oldValue = currentValue
@@ -56,15 +65,33 @@ class GameActivity : AppCompatActivity() {
                 points++
 
             cardImage.setImageDrawable(currentCard.card)
-            finish()
+
         }
 
+        evenButton.setOnClickListener {
+            val oldValue = currentValue
+            getCard()
+            val newValue = currentValue
+            //val compResult: Int = (oldValue as Comparable<*>).compareTo(currentValue as Comparable<*>)
+
+            if(oldValue == newValue)
+                points++
+
+            cardImage.setImageDrawable(currentCard.card)
+            writePoints()
+        }
+
+
+
+    }
+    fun writePoints() {
+        pointsView.text = " $name : $points poäng"
     }
 
     private fun getCard(){
         currentCard = card.getCard(Random.nextInt(card.returnSize()))
-        currentValue = currentCard.value
-    }*/
+        currentValue = currentCard.value as Int
+
     }
     class Deck(context : Context) {
             private val cards = arrayOf(
@@ -75,20 +102,20 @@ class GameActivity : AppCompatActivity() {
                 2,
                 3
             )
-            private val deck: List<ImageItem> = cards.mapIndexed { index, resourceId ->
-                val card = context.getDrawable(resourceId)!!
-                val value = values.getOrNull(index) ?: ""
-                ImageItem(card, value)
-            }
+        private val deck: List<ImageItem> = cards.mapIndexed { index, resourceId ->
+            val card = context.getDrawable(resourceId)!!
+            val value = values.getOrNull(index) ?: 0
+            ImageItem(card, value)
         }
 
-    /*
+
+
         fun getCard (index: Int): ImageItem{
             return deck[index]
         }
 
         fun returnSize() : Int {
-            return cards.size
+            return deck.size
         }
-*/
+    }
 }
