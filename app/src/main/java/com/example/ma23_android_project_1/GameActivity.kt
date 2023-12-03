@@ -1,12 +1,13 @@
 package com.example.ma23_android_project_1
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.content.Context
-import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 data class ImageItem(val card: Drawable, val value: Comparable<*>)
@@ -100,7 +101,7 @@ class GameActivity : AppCompatActivity() {
                 R.drawable.clubs6, R.drawable.clubs7, R.drawable.clubs8, R.drawable.clubs9,
                 R.drawable.clubs10, R.drawable.clubs11, R.drawable.clubs12, R.drawable.clubs13,
                 R.drawable.clubs14,
-/*
+
                 R.drawable.diamonds2, R.drawable.diamonds3, R.drawable.diamonds4, R.drawable.diamonds5,
                 R.drawable.diamonds6, R.drawable.diamonds7, R.drawable.diamonds8, R.drawable.diamonds9,
                 R.drawable.diamonds10, R.drawable.diamonds11, R.drawable.diamonds12, R.drawable.diamonds13,
@@ -114,14 +115,14 @@ class GameActivity : AppCompatActivity() {
                 R.drawable.spades2, R.drawable.spades3, R.drawable.spades4, R.drawable.spades5,
                 R.drawable.spades6, R.drawable.spades7, R.drawable.spades8, R.drawable.spades9,
                 R.drawable.spades10, R.drawable.spades11, R.drawable.spades12, R.drawable.spades13,
-                R.drawable.spades14*/
+                R.drawable.spades14
             )
 
             private val values = mutableListOf(
                 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-  /*              2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
                 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-                2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14*/
+                2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
             )
 
         private val deck: MutableList<ImageItem> = mutableListOf()
