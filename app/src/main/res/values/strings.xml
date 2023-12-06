@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">MA23_ANDROID_PROJECT_1</string>
     <string name="statistics">Statistics</string>
+    <string name="pointPlaceholder">%username%: X poäng</string>
+    <string name="cardImageDescription">Random playingcard from a deck</string>
+    <string name="gameQuestion">Är nästa kort högre eller lägre?</string>
+    <string name="higher">&#11014;</string>
+    <string name="lower">&#11015;</string>
+    <string name="even">&#8644;</string>
+    <string name="highscoreImageButtonDescription">Button to view highscores</string>
+    <string name="restartImageButtonDescription">Button to restart the game</string>
+    <string name="letStart">Kör igång!</string>
+    <string name="yourName">Ditt namn</string>
+    <string name="addYourName">Ange ditt namn: </string>
+    <string name="highscoreHeader">Highscore:</string>
 </resources>
