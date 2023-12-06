@@ -1,13 +1,16 @@
 package com.example.ma23_android_project_1
 
+import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlin.random.Random
 
 data class ImageItem(val card: Drawable, val value: Comparable<*>)
@@ -16,11 +19,11 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var pointsView: TextView
     private lateinit var cardImage : ImageView
+    private lateinit var currentCard : ImageItem
 
     private var name : String? = null
     private var points : Int = 0
     private var currentValue: Int = 0
-    private lateinit var currentCard : ImageItem
     private val card: Deck by lazy {
         Deck(applicationContext)
     }
@@ -36,6 +39,7 @@ class GameActivity : AppCompatActivity() {
         val evenButton = findViewById<Button>(R.id.evenButton)
 
         name = intent.getStringExtra("player")
+        points = readHighScore().find { it.first == name }?.second ?: 0
 
         writePoints()
         getCard()
@@ -78,11 +82,11 @@ class GameActivity : AppCompatActivity() {
         }
     }
     private fun getCard(){
-        val newCard = card.getCard(Random.nextInt(card.returnSize()))
+        val newCard = card.getCard()
 
         if (newCard != null) {
             currentCard = newCard
-            currentValue = currentCard.value as Int
+            currentValue = (currentCard.value as? Int) ?: 0
             cardImage.setImageDrawable(currentCard.card)
         }
         else {
@@ -92,8 +96,58 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun endActivity(){
+        val namePoints = listOf(Pair(name, points))
+        saveHighScore(name ?: "", points)
+
+        val highScoreList = readHighScore()
+        val intent = Intent()
+
+        intent.putExtra("highscore", Gson().toJson(highScoreList))
+        setResult(Activity.RESULT_OK, intent)
+
         finish()
     }
+
+    fun saveHighScore(playerName: String?, points: Int) {
+        if (playerName.isNullOrBlank()) return  // Handle null or empty playerName
+
+        val statistics = readHighScore()
+        val updatedStatistics = statistics.toMutableList()
+
+        val playerIndex = updatedStatistics.indexOfFirst { it.first == playerName }
+        if (playerIndex != -1) {
+            updatedStatistics[playerIndex] = playerName to points
+        } else {
+            updatedStatistics.add(playerName to points)
+        }
+
+        saveStatistics(updatedStatistics)
+    }
+
+
+    fun saveStatistics(statistics: List<Pair<String, Int>>) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            val json = Gson().toJson(statistics)
+            putString(getString(R.string.statistics), json)
+            apply()
+        }
+    }
+
+
+    fun readHighScore(): List<Pair<String, Int>> {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val json = sharedPref.getString(getString(R.string.statistics), null)
+
+        return try {
+            return Gson().fromJson(json, object : TypeToken<List<Pair<String, Int>>>() {}.type) ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+
+
     class Deck(context : Context) {
 
             private val cards = mutableListOf(
@@ -143,13 +197,12 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        fun getCard (index: Int): ImageItem? {
+        fun getCard (): ImageItem? {
             if (returnSize() > 0) {
-                val newCard = deck[index]
-                removeCard(index)
+                val newCard = deck[Random.nextInt(returnSize())]
+                removeCard(deck.indexOf(newCard))
                 return newCard
-            }
-            else {
+            } else {
                 return null
             }
         }
