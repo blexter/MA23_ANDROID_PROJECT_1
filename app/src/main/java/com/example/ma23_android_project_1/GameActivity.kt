@@ -6,8 +6,10 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,6 +22,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var pointsView: TextView
     private lateinit var cardImage : ImageView
     private lateinit var currentCard : ImageItem
+    //private lateinit var startForResult: ActivityResultLauncher<Intent>
 
     private var name : String? = null
     private var points : Int = 0
@@ -37,6 +40,8 @@ class GameActivity : AppCompatActivity() {
         val higherButton = findViewById<Button>(R.id.higherButton)
         val lowerButton = findViewById<Button>(R.id.lowerButton)
         val evenButton = findViewById<Button>(R.id.evenButton)
+        val statisticsButton = findViewById<ImageButton>(R.id.statisticsButton)
+        val restartButton = findViewById<ImageButton>(R.id.restartButton)
 
         name = intent.getStringExtra("player")
         points = readHighScore().find { it.first == name }?.second ?: 0
@@ -54,6 +59,14 @@ class GameActivity : AppCompatActivity() {
 
         evenButton.setOnClickListener {
             checkGame("=")
+        }
+
+        statisticsButton.setOnClickListener{
+            endActivity()
+        }
+
+        restartButton.setOnClickListener{
+            restart()
         }
     }
     private fun writePoints() {
@@ -95,17 +108,15 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    private fun restart(){
+        val namePoints = listOf(Pair(name, points))
+        saveHighScore(name ?: "", points)
+        finish()
+    }
     private fun endActivity(){
         val namePoints = listOf(Pair(name, points))
         saveHighScore(name ?: "", points)
-
-        val highScoreList = readHighScore()
-        val intent = Intent()
-
-        intent.putExtra("highscore", Gson().toJson(highScoreList))
-        setResult(Activity.RESULT_OK, intent)
-
-        finish()
+        watchHighscore()
     }
 
     fun saveHighScore(playerName: String?, points: Int) {
@@ -146,7 +157,12 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    fun watchHighscore() {
+        val intent = Intent(this, StatsticsActivity::class.java)
 
+        intent.putExtra("highscore", Gson().toJson(readHighScore()))
+        startActivity(intent)
+    }
 
     class Deck(context : Context) {
 
